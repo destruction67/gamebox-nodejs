@@ -1,0 +1,203 @@
+{{#if removedUser}}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    User has been removed.
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{{/if}}
+
+{{#if message}}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  {{message}}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{{/if}}
+
+<div class="row">
+    <div class="col-6">
+        <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#uploadGame-modal">
+            Import CSV
+        </button>
+    </div>
+    <div class="col-6 d-flex justify-content-end">
+        <button type="button" class="btn btn-warning" data-mdb-toggle="modal" data-mdb-target="#addGame-modal">
+            Add Game
+        </button>
+    </div>
+</div>
+<br>
+
+<table class="display" id="mytable">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Game Title</th>
+            <th scope="col">Publisher</th>
+            <th scope="col">Price</th>
+            <th scope="col" class="text-center">Action</th>
+        </tr>
+    </thead>
+
+
+
+    <tbody>
+
+        {{#each rows}}
+        <tr>
+            <th scope="row">{{id}}</th>
+            <td>{{game_title}}</td>
+            <td>{{game_publisher}}</td>
+            <td>{{game_price}}</td>
+            <td class="text-end">
+                <a href="/viewuser/{{id}}" type="button" class="btn btn-primary btn-small"><i class="bi bi-eye"></i>
+                    View</a>
+
+                <a href="javascript:void(0);" class="btn btn-success edit" data-id="{{id}}"
+                    data-game_title="{{game_title}}" data-game_publisher="{{game_publisher}}"
+                    data-game_price="{{game_price}}">Edit</a>
+
+
+                <a href="/{{id}}" type="button" class="btn btn-danger btn-small"><i class="bi bi-person-x"></i>
+                    Delete</a>
+            </td>
+        </tr>
+        {{/each}}
+
+    </tbody>
+</table>
+
+<!-- Add New Game Modal-->
+<form action="/add-game" id="form-id_add-form" method="post"> 
+<div class="modal fade" id="addGame-modal" tabindex="-1"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Title</h5>
+                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="form">
+                    <input type="text" id="game_title" name="g_title" autocomplete="off" required />
+                    <label for="text" class="label-name">
+                        <span class="content-name">
+                            Game Title
+                        </span>
+                    </label>
+                </div>
+                <br>
+
+                <div class="form">
+                    <input type="text" id="publisher" name="g_publisher" autocomplete="off" required />
+                    <label for="text" class="label-name">
+                        <span class="content-name">
+                            Publisher
+                        </span>
+                    </label>
+                </div>
+                <br>
+
+                <div class="form">
+                    <input type="text" id="price" name="g_price" autocomplete="off" required />
+                    <label for="text" class="label-name">
+                        <span class="content-name">
+                            Price
+                        </span>
+                    </label>
+                </div>
+                <br>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
+                    Close
+                </button>
+                <button type="button" onclick="myFunction()" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+    </div>
+</form>
+
+<!-- Update Game Modal-->
+<form action="/update-game" method="post"> <div class="modal fade" id="editGame-modal" tabindex="-1"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Title</h5>
+                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="form">
+                    <input type="text" name="game_title" class="g_title" autocomplete="off" required />
+                    <label for="text" class="label-name">
+                        <span class="content-name">
+                            Game Title
+                        </span>
+                    </label>
+                </div>
+                <br>
+
+                <div class="form">
+                    <input type="text" name="game_publisher" class="g_publisher" autocomplete="off" required />
+                    <label for="text" class="label-name">
+                        <span class="content-name">
+                            Publisher
+                        </span>
+                    </label>
+                </div>
+                <br>
+
+                <div class="form">
+                    <input type="text" name="game_price" class="g_price" autocomplete="off" required />
+                    <label for="text" class="label-name">
+                        <span class="content-name">
+                            Price
+                        </span>
+                    </label>
+                </div>
+                <br>
+            </div>
+            <br>
+
+            <div class="modal-footer">
+                <input type="hidden" name="id" class="g_id">
+                <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
+                    Close
+                </button>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+    </div>
+</form>
+
+
+<!-- Upload CSV Game Modal-->
+<form action="/api/uploadfile" method="post" enctype="multipart/form-data"> <div class="modal fade"
+    id="uploadGame-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Title</h5>
+                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <label class="form-label" for="customFile">Default file input example</label>
+                <input type="file" name="uploadfile" class="form-control" id="uploadfile" />
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
+                    Close
+                </button>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+    </div>
+</form>

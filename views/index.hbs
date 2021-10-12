@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{{> head }}
+
+<body>
+
+    <div class="body-page-container">
+        <div class="body-content-wrap">
+            {{> nav-bar }}
+
+            <div class="container pt-5 pb-5">
+                {{> game-table }}
+            </div>
+
+
+        </div>
+    </div>
+
+    {{> footer }}
+
+    {{!-- This makes notfication closable for some reason --}}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- MDB -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.6.0/mdb.min.js"></script>
+
+    <!-- JQUERY -->
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
+    {{!-- data tables --}}
+    <script type="text/javascript" charset="utf8"
+        src="https://cdn.datatables.net/1.11.0/js/jquery.dataTables.js"></script>
+
+
+        <script>
+        function myFunction() {
+        Swal.fire({
+            icon: 'success',
+            title: 'Successfully Added',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#1266f1',
+            text: 'Click OK to confirm',
+            footer: '',
+            showCloseButton: false,
+            allowOutsideClick: false
+        })
+            .then(function (result) {
+            if (result.value) {
+                document.getElementById("form-id_add-form").submit();
+            }
+            })
+        }
+    </script>
+  
+    <script>
+        $(document).ready(function () {
+            //showing data to modal for edit record
+            $('#mytable').on('click', '.edit', function () {
+                var id = $(this).data('id');
+                var game_title = $(this).data('game_title');
+                var game_publisher = $(this).data('game_publisher');
+                var game_price = $(this).data('game_price');
+
+                $('#editGame-modal').modal('show');
+                $('.g_id').val(id);
+                $('.g_title').val(game_title);
+                $('.g_publisher').val(game_publisher);
+                $('.g_price').val(game_price);
+            });
+
+        });
+    </script>
+
+    <script>
+        $('#mytable').DataTable()
+    </script>
+
+
+
+
+</body>
+
+</html>
